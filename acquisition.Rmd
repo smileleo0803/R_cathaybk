@@ -5,42 +5,6 @@ date: "2017年4月16日"
 output: html_document
 ---
 
-## 一次匯入多筆CSV檔
-```{R}
-#import data 土法~待解聰明方法
-partition_time3696969600 = read.csv("E:/hackathon-encoded/profile/partition_time=3696969600/1.csv",header = F)
-partition_time3699475200 = read.csv("E:/hackathon-encoded/profile/partition_time=3699475200/2.csv",header = F)
-partition_time3702153600 = read.csv("E:/hackathon-encoded/profile/partition_time=3702153600/3.csv",header = F)
-partition_time3704745600 = read.csv("E:/hackathon-encoded/profile/partition_time=3704745600/4.csv",header = F)
-partition_time3707424000 = read.csv("E:/hackathon-encoded/profile/partition_time=3707424000/5.csv",header = F)
-partition_time3710016000 = read.csv("E:/hackathon-encoded/profile/partition_time=3710016000/6.csv",header = F)
-partition_time3712694400 = read.csv("E:/hackathon-encoded/profile/partition_time=3712694400/7.csv",header = F)
-partition_time3715372800 = read.csv("E:/hackathon-encoded/profile/partition_time=3715372800/8.csv",header = F)
-partition_time3717964800 = read.csv("E:/hackathon-encoded/profile/partition_time=3717964800/9.csv",header = F)
-partition_time3720643200 = read.csv("E:/hackathon-encoded/profile/partition_time=3720643200/10.csv",header = F)
-partition_time3723235200 = read.csv("E:/hackathon-encoded/profile/partition_time=3723235200/11.csv",header = F)
-partition_time3725913600 = read.csv("E:/hackathon-encoded/profile/partition_time=3725913600/12.csv",header = F)
-partition_time3728592000 = read.csv("E:/hackathon-encoded/profile/partition_time=3728592000/13.csv",header = F)
-
-#合併CSV檔(Merge只能兩兩併)
-a=merge(partition_time3696969600, partition_time3699475200, all = T,ncol=15)
-b=merge(partition_time3702153600, partition_time3704745600, all = T,ncol=15)
-c=merge(partition_time3707424000, partition_time3710016000, all = T,ncol=15)
-d=merge(partition_time3712694400, partition_time3715372800, all = T,ncol=15)
-e=merge(partition_time3717964800, partition_time3720643200, all = T,ncol=15)
-f=merge(partition_time3723235200, partition_time3725913600, all = T,ncol=15)
-g=merge(a, b, all = T,ncol=15)
-h=merge(c, d, all = T,ncol=15)
-i=merge(e, f, all = T,ncol=15)
-j=merge(g, h, all = T,ncol=15)
-k=merge(i, partition_time3728592000, all = T,ncol=15)
-total_data=merge(j, k, all = T,ncol=15)
-
-#帶入Header
-colnames(total_data) = c('PID','Birthday','Gender','Comm_Area','Comm_Areacode','House_Area','House_AreaCode','BOA','Rev','Date_Arrival','Credit_Card','Loan','Saving','FM','Data_Date')
-
-
-```
 #客戶總數
 ```{R}
 #匯入profile data
