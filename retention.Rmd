@@ -1,0 +1,78 @@
+---
+title: "retention"
+author: "Karen"
+date: "2017年4月20日"
+output: html_document
+---
+
+##查信用卡睡卡比例
+將信用卡(cctxn)partition_time=3696969600所有CSV合併
+比對Profil中partition_time=3696969600的table
+
+```{R}
+#import cctxn 
+#將CSV所放的資料夾路徑設為path
+path = "F:/hackathon-encoded/cctxn/partition_time=3696969600/"
+#path中的所有CSV檔變為list指定為files
+files <- list.files(path=path, pattern="*.csv")
+a <- function(x) read.csv(x,quote = "")
+#將path及file合併，並使用a的function
+cctxn = lapply(paste(path,files,sep=""), a)
+head(cctxn)
+
+
+# for(i in length(cctxn)){
+#   colnames(cctxn[[i]]) <- c('客戶id','PID','action_type','action_time','店家編號','merchant_nbr','信用卡','card_id','txn_amt','original_currency','c_category_desc','mcc_desc','mcc_code','card_type','card_level','16','17');
+# }
+
+colnames(cctxn[[1]]) <- c('客戶id','PID','action_type','action_time','店家編號','merchant_nbr','信用卡','card_id','txn_amt','original_currency','c_category_desc','mcc_desc','mcc_code','card_type','card_level','16','17')
+colnames(cctxn[[2]]) <- c('客戶id','PID','action_type','action_time','店家編號','merchant_nbr','信用卡','card_id','txn_amt','original_currency','c_category_desc','mcc_desc','mcc_code','card_type','card_level','16','17')
+colnames(cctxn[[3]]) <- c('客戶id','PID','action_type','action_time','店家編號','merchant_nbr','信用卡','card_id','txn_amt','original_currency','c_category_desc','mcc_desc','mcc_code','card_type','card_level','16','17')
+colnames(cctxn[[4]]) <- c('客戶id','PID','action_type','action_time','店家編號','merchant_nbr','信用卡','card_id','txn_amt','original_currency','c_category_desc','mcc_desc','mcc_code','card_type','card_level','16','17')
+colnames(cctxn[[5]]) <- c('客戶id','PID','action_type','action_time','店家編號','merchant_nbr','信用卡','card_id','txn_amt','original_currency','c_category_desc','mcc_desc','mcc_code','card_type','card_level','16','17')
+colnames(cctxn[[6]]) <- c('客戶id','PID','action_type','action_time','店家編號','merchant_nbr','信用卡','card_id','txn_amt','original_currency','c_category_desc','mcc_desc','mcc_code','card_type','card_level','16','17')
+colnames(cctxn[[7]]) <- c('客戶id','PID','action_type','action_time','店家編號','merchant_nbr','信用卡','card_id','txn_amt','original_currency','c_category_desc','mcc_desc','mcc_code','card_type','card_level','16','17')
+colnames(cctxn[[8]]) <- c('客戶id','PID','action_type','action_time','店家編號','merchant_nbr','信用卡','card_id','txn_amt','original_currency','c_category_desc','mcc_desc','mcc_code','card_type','card_level','16','17')
+colnames(cctxn[[9]]) <- c('客戶id','PID','action_type','action_time','店家編號','merchant_nbr','信用卡','card_id','txn_amt','original_currency','c_category_desc','mcc_desc','mcc_code','card_type','card_level','16','17')
+
+cctxn = do.call(rbind,cctxn)
+
+cctxn <- cctxn[,-c(1,5,7,16,17)]
+head(cctxn)
+str(cctxn)
+
+cctxn$txn_amt = as.character(cctxn$txn_amt)
+cctxn$original_currency = as.character(cctxn$original_currency)
+cctxn$c_category_desc = as.character(cctxn$c_category_desc)
+cctxn$mcc_desc = as.character(cctxn$mcc_desc)
+cctxn$mcc_code = as.character(cctxn$mcc_code)
+cctxn$card_type = as.character(cctxn$card_type)
+cctxn$card_level = as.character(cctxn$card_level)
+str(cctxn)
+
+install.packages("stringr")
+library(stringr)
+
+s_smt = str_extract_all(cctxn$txn_amt, "[0-9]+\.[0-9]+", simplify = TRUE)
+#Error: '\.' 
+
+s_smt1 = str_extract(string = cctxn$txn_amt , pattern =":" )
+#多\"
+
+s_smt1 = str_split_fixed(cctxn[,6],":",n=3)
+#多\"
+
+s_orcu = str_split_fixed(cctxn$original_currency,"\\\"",n=20)
+
+cctxn$original_currency = str_split_fixed(cctxn$original_currency,"\\\"",n=15)
+cctxn$c_category_desc = str_split_fixed(cctxn$c_category_desc,n=15)
+cctxn$mcc_desc = str_split_fixed(cctxn$mcc_desc,n=15)
+cctxn$mcc_code = str_split_fixed(cctxn$mcc_code,n=15)
+cctxn$card_type = str_split_fixed(cctxn$card_type,n=15)
+cctxn$card_level = str_split_fixed(cctxn$card_level,n=15)
+
+z = str_split(total_cctxn$txn_amt,"\\\"")
+head(cctxn)
+split9 = split(total_cctxn$txn_amt, ":")
+
+```
